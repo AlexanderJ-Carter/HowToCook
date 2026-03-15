@@ -1,5 +1,6 @@
-# ============================
-# Prepare lint Environment
+# HowToCook (Fork) - MkDocs + WeasyPrint 构建，nginx 运行
+# 上游：Anduin2017/HowToCook
+
 FROM node:22-alpine AS lint-env
 WORKDIR /app
 COPY package*.json ./
@@ -15,8 +16,8 @@ WORKDIR /app
 # 安装依赖并清理缓存
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        weasyprint \
-        fonts-noto-cjk \
+    weasyprint \
+    fonts-noto-cjk \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
