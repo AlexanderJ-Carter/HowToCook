@@ -2,29 +2,43 @@ name: Continuous Deployment
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-readme-file:
     runs-on: ubuntu-latest
     steps:
-      # Checkout, install tools..
       - uses: actions/checkout@v6
         with:
           token: ${{ secrets.PAT }}
+
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
-      - run: npm install
-      - run: npm run build
-      - run: npm run lint
-      # Save files.
-      - uses: stefanzweifel/git-auto-commit-action@v7
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and lint
+        run: |
+          npm run build
+          npm run lint
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: '[ci skip] Automatic file changes/fix'
           branch: 'master'
-          file_pattern: ':/*.*'
+          file_pattern: 'README.md mkdocs.yml starsystem/*.md'
           commit_user_name: github-actions[bot]
           commit_user_email: github-actions[bot]@users.noreply.github.com
           commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
@@ -33,12 +47,14 @@ jobs:
     needs: build-readme-file
     runs-on: ubuntu-latest
     steps:
-      # Checkout, install tools..
       - uses: actions/checkout@v6
         with:
           lfs: true
           fetch-depth: 0
-      # Use docker to build current directory ./Dockfile
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -46,7 +62,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push the Docker image
-        run: |
-          docker build . --tag ghcr.io/anduin2017/how-to-cook:latest
-          docker push ghcr.io/anduin2017/how-to-cook:latest
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/how-to-cook
+          tags: |
+            type=raw,value=latest
+            type=sha,prefix=
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

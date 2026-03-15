@@ -64,12 +64,19 @@ const categories = {
 
 async function countStars(filename) {
   const data = await fs.readFile(filename, 'utf-8');
-  let stars = 0;
   const lines = data.split('\n');
-  lines.forEach(line => {
-    stars += (line.match(/★/g) || []).length;
-  });
-  return stars;
+  // 只查找"预估烹饪难度"这一行的星级
+  for (const line of lines) {
+    if (line.includes('预估烹饪难度')) {
+      const stars = (line.match(/★/g) || []).length;
+      // 验证星级在有效范围内 (1-5)
+      if (stars >= 1 && stars <= 5) {
+        return stars;
+      }
+    }
+  }
+  // 如果没有找到难度标注或星级无效，返回 0 表示需要人工检查
+  return 0;
 }
 
 async function organizeByStars(dishesFolder, starsystemFolder) {
@@ -92,7 +99,15 @@ async function organizeByStars(dishesFolder, starsystemFolder) {
   const dishesFolderAbs = path.resolve(dishesFolder);
   const starsystemFolderAbs = path.resolve(starsystemFolder);
 
-  if (!await fs.access(starsystemFolderAbs).then(() => true).catch(() => false)) {
+  // 清理旧的 starsystem 文件
+  if (await fs.access(starsystemFolderAbs).then(() => true).catch(() => false)) {
+    const oldFiles = await readdir(starsystemFolderAbs);
+    for (const oldFile of oldFiles) {
+      if (oldFile.endsWith('.md')) {
+        await fs.unlink(path.join(starsystemFolderAbs, oldFile));
+      }
+    }
+  } else {
     await fs.mkdir(starsystemFolderAbs, { recursive: true });
   }
 
@@ -103,21 +118,32 @@ async function organizeByStars(dishesFolder, starsystemFolder) {
 
   await processFolder(dishesFolderAbs);
 
-  const starRatings = Array.from(new Set(Object.values(dishes))).sort((a, b) => a - b);
-  const navigationLinks = []; 
+  // 只生成 1-5 星的文件，忽略 0 星（无效评级）
+  const validStarRatings = [1, 2, 3, 4, 5];
+  const navigationLinks = [];
 
-  for (const stars of starRatings) {
+  for (const stars of validStarRatings) {
+    const dishesWithStars = Object.entries(dishes).filter(([_, starCount]) => starCount === stars);
+    if (dishesWithStars.length === 0) continue;
+
     const starsFile = path.join(starsystemFolderAbs, `${stars}Star.md`);
     const content = [`# ${stars} 星难度菜品`, ''];
-    for (const [filepath, starCount] of Object.entries(dishes)) {
-      if (starCount === stars) {
-        const relativePath = path.relative(starsystemFolderAbs, filepath).replace(/\\/g, '/');
-        content.push(`* [${path.basename(filepath, '.md')}](./${relativePath})`);
-      }
+    for (const [filepath, starCount] of dishesWithStars) {
+      const relativePath = path.relative(starsystemFolderAbs, filepath).replace(/\\/g, '/');
+      content.push(`* [${path.basename(filepath, '.md')}](./${relativePath})`);
     }
     await writeFile(starsFile, content.join('\n'), 'utf-8');
     navigationLinks.push(`- [${stars} 星难度](${path.relative(path.dirname(README_PATH), starsFile).replace(/\\/g, '/')})`);
-    }
+  }
+
+  // 检查是否有无效评级的菜品
+  const invalidDishes = Object.entries(dishes).filter(([_, starCount]) => starCount === 0);
+  if (invalidDishes.length > 0) {
+    console.warn('警告：以下菜品缺少有效的难度评级（应为 1-5 星）：');
+    invalidDishes.forEach(([filepath]) => {
+      console.warn(`  - ${filepath}`);
+    });
+  }
 
   return navigationLinks;
 }

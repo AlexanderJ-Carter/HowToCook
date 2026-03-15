@@ -2,16 +2,28 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   markdown-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
-      - run: npm install
-      - run: npm run lint
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linters
+        run: npm run lint

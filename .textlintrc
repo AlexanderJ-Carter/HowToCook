@@ -1,4 +1,5 @@
 {
+  "$schema": "https://textlint.github.io/docs/configuration.html",
   "filters": {},
   "rules": {
     "ja-space-between-half-and-full-width": {
