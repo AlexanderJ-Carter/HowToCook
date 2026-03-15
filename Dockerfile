@@ -27,10 +27,11 @@ RUN mkdocs build
 # ============================
 # Prepare Runtime Environment
 FROM nginx:1-alpine
-# 添加标签
-LABEL org.opencontainers.image.source="https://github.com/Anduin2017/HowToCook"
-LABEL org.opencontainers.image.description="程序员在家做饭方法指南"
+
+LABEL org.opencontainers.image.source="https://github.com/AlexanderJ-Carter/HowToCook"
+LABEL org.opencontainers.image.description="程序员在家做饭方法指南（HowToCook fork）"
 LABEL org.opencontainers.image.licenses="Unlicense"
+LABEL org.opencontainers.image.revision="fork of Anduin2017/HowToCook"
 
 # 复制构建产物
 COPY --from=python-env /app/site /usr/share/nginx/html

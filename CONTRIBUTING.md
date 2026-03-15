@@ -1,50 +1,47 @@
 # 如何贡献
 
-感谢你对 HowToCook 项目的兴趣！本文档将帮助你了解如何为项目做出贡献。
+感谢你对 HowToCook 的兴趣！本文档说明如何参与贡献。
 
 ## 简介
 
-这是一个由社区驱动和维护的开源菜谱项目。我们欢迎所有人贡献菜谱、改进现有内容或修复问题。
+HowToCook 是由社区驱动和维护的开源菜谱项目，欢迎贡献新菜谱、改进现有内容或修复问题。
 
 ## 快速开始
 
 ### 贡献方式
 
-1. **修复问题**：直接修改并提交 Pull Request
-2. **添加新菜谱**：复制模板文件，填写后提交
-3. **改进文档**：完善现有菜谱的描述或步骤
+| 方式 | 说明 |
+|------|------|
+| **修复问题** | 直接修改并提交 Pull Request |
+| **添加新菜谱** | 复制模板填写后提交（见下方模板链接） |
+| **改进文档** | 完善现有菜谱的描述、步骤或格式 |
 
 ### 菜谱模板
 
-在写新菜谱时，请复制并修改模板：[示例菜](./dishes/template/示例菜/示例菜.md)
+写新菜谱时请基于模板修改：[示例菜](./dishes/template/示例菜/示例菜.md)
 
 ## 本地开发
 
 ### 环境要求
 
-- Node.js >= 18.0.0
-- npm
+- **Node.js** >= 18.0.0
+- **npm**
 
-### 安装依赖
+### 安装与验证
 
 ```bash
 npm install
+npm run build   # 生成 README.md、mkdocs.yml、starsystem/*.md
+npm run lint    # 运行全部检查（textlint + markdownlint + manuallint）
 ```
 
-### 本地验证
+### 单独执行检查
 
-```bash
-# 运行所有 lint 检查
-npm run lint
-
-# 单独运行各项检查
-npm run textlint      # 文本格式检查
-npm run markdownlint  # Markdown 格式检查
-npm run manuallint    # 手动规则检查
-
-# 生成 README 和星级索引
-npm run build
-```
+| 命令 | 说明 |
+|------|------|
+| `npm run textlint` | 文本格式（中英文空格等） |
+| `npm run markdownlint` | Markdown 格式 |
+| `npm run manuallint` | 手动规则检查 |
 
 ## 菜谱编写规范
 

@@ -2,23 +2,19 @@
 
 本仓库是 [Anduin2017/HowToCook](https://github.com/Anduin2017/HowToCook) 的个人 fork。
 
-## 主要改动
+## 相对上游的改动
 
-- 修复了 starsystem 目录中的异常评级问题
-- 优化了 `readme-generate.js` 中的星级计算逻辑
-- 更新了项目配置文件（package.json, Dockerfile, GitHub Actions）
-- 完善了 CONTRIBUTING.md 和 lint 配置
+- **starsystem**：修复异常难度评级，仅输出 1–5 星有效索引
+- **readme-generate.js**：统一 fs 使用、移除调试输出、逻辑优化
+- **工程**：package.json、Dockerfile、GitHub Actions、CONTRIBUTING.md 与 lint 配置完善
 
-## 如何同步上游
+## 同步上游
+
+> 上游默认分支为 `master`，若你使用 `main` 请相应调整分支名。
 
 ```bash
-# 添加上游仓库
 git remote add upstream https://github.com/Anduin2017/HowToCook.git
-
-# 拉取上游更新
 git fetch upstream
-
-# 合并到本地
 git merge upstream/master
 ```
 
