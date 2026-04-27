@@ -18,7 +18,9 @@
     "manuallint": "node .github/manual_lint.js",
     "textlint": "textlint . --fix",
     "markdownlint": "markdownlint ./dishes ./tips",
-    "lint": "npm run textlint && npm run markdownlint && npm run manuallint && echo 'Lint finished. All passed.'"
+    "lint": "npm run textlint && npm run markdownlint && npm run manuallint && echo 'Lint finished. All passed.'",
+    "lint:check": "textlint . && markdownlint ./dishes ./tips && npm run manuallint",
+    "check": "npm run build && npm run lint"
   },
   "author": "Anduin2017",
   "license": "Unlicense",

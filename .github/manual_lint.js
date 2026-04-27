@@ -1,14 +1,23 @@
+/**
+ * 手动 Lint 检查脚本
+ * 验证菜谱文件是否符合项目规范
+ */
+
 const util = require("util");
 const glob = util.promisify(require('glob'));
 const fs = require("fs").promises;
 const path = require('path');
 
-const MAX_FILE_SIZE = 1024 * 1024; // 1MB
+const MAX_FILE_SIZE = 1024 * 1024; // 1MB 文件大小限制
 // glob 模式，定位菜谱 Markdown 文件和所有文件
 const DISHES_GLOB = path.resolve(__dirname, '../dishes/**/*.md');
 const ALL_FILES_GLOB = path.resolve(__dirname, '../dishes/**/*');
 
-// 工具函数：获取文件状态，包括大小
+/**
+ * 获取文件状态信息
+ * @param {string} filePath - 文件路径
+ * @returns {Promise<fs.Stats|null>} 文件状态对象，失败返回 null
+ */
 async function getFileStats(filePath) {
   try {
     const stats = await fs.stat(filePath);
@@ -19,14 +28,24 @@ async function getFileStats(filePath) {
   }
 }
 
-// 工具函数：读取文件内容并按行返回
+/**
+ * 读取文件内容并按行分割
+ * @param {string} filePath - 文件路径
+ * @returns {Promise<string[]>} 去除首尾空格的行数组
+ */
 async function readLines(filePath) {
   const content = await fs.readFile(filePath, 'utf8');
   return content.split('\n').map(line => line.trim());
 }
 
-// 校验函数集合
+/**
+ * 校验函数集合
+ * 每个函数检查特定的规范要求
+ */
 const validators = [
+  /**
+   * 验证文件名不包含空格
+   */
   async (filePath, lines, errors) => {
     const filenameWithoutExt = path.parse(filePath).name; // .name 是不带扩展名的文件名
     if (filenameWithoutExt.includes(' ')) {
@@ -34,7 +53,9 @@ const validators = [
     }
   },
 
-  
+  /**
+   * 验证标题格式和必要章节
+   */
   async (filePath, lines, errors) => {
     const filenameWithoutExt = path.parse(filePath).name;
     const expectedMainTitle = `# ${filenameWithoutExt}的做法`;
@@ -48,7 +69,7 @@ const validators = [
     const sections = lines.filter(l => l.startsWith('## '));
     const requiredSections = ['## 必备原料和工具', '## 计算', '## 操作', '## 附加内容'];
 
-    
+
     if (sections.length !== requiredSections.length) {
         errors.push(`文件 ${filePath} 不符合仓库的规范！它并不是四个二级标题的格式 (应为 ${requiredSections.length} 个，实际 ${sections.length} 个)。请从示例菜模板中创建菜谱！请不要破坏模板的格式！`);
         return;
@@ -95,7 +116,9 @@ const validators = [
     }
   },
 
-  
+  /**
+   * 验证用词规范（避免模糊描述）
+   */
   async (filePath, lines, errors) => {
     const count = keyword => lines.filter(l => l.includes(keyword)).length;
 
@@ -123,7 +146,9 @@ const validators = [
     });
   },
 
-  
+  /**
+   * 验证份数和总量标注规范
+   */
   async (filePath, lines, errors) => {
     const hasPortion = lines.some(l => l.includes('份数'));
     const hasTotal = lines.some(l => l.includes('总量'));
@@ -137,7 +162,9 @@ const validators = [
     }
   },
 
-  
+  /**
+   * 验证必需的附加内容（footer）
+   */
   async (filePath, lines, errors) => {
     const footer = '如果您遵循本指南的制作流程而发现有问题或可以改进的流程，请提出 Issue 或 Pull request 。';
     if (!lines.includes(footer)) {
@@ -147,6 +174,9 @@ const validators = [
 ];
 
 
+/**
+ * 主函数：执行所有验证检查
+ */
 async function main() {
   const errors = [];
   // 获取所有文件和 Markdown 文件路径

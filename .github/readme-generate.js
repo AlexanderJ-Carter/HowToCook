@@ -68,6 +68,11 @@ const categories = {
     },
 };
 
+/**
+ * 从菜谱文件中提取难度星级（1-5星）
+ * @param {string} filename - 菜谱文件路径
+ * @returns {Promise<number>} 星级数（1-5），无效评级返回 0
+ */
 async function countStars(filename) {
     const data = await fs.readFile(filename, 'utf-8');
     const lines = data.split('\n');
@@ -85,9 +90,19 @@ async function countStars(filename) {
     return 0;
 }
 
+/**
+ * 按难度星级组织菜谱，生成对应的索引文件
+ * @param {string} dishesFolder - 菜谱文件夹路径
+ * @param {string} starsystemFolder - 星级索引文件夹路径
+ * @returns {Promise<string[]>} 导航链接数组
+ */
 async function organizeByStars(dishesFolder, starsystemFolder) {
     const dishes = {};
 
+    /**
+     * 递归处理文件夹，提取所有菜谱文件的难度星级
+     * @param {string} folderPath - 当前处理的文件夹路径
+     */
     async function processFolder(folderPath) {
         const files = await readdir(folderPath);
         for (const filename of files) {
@@ -176,6 +191,13 @@ async function organizeByStars(dishesFolder, starsystemFolder) {
     return navigationLinks;
 }
 
+/**
+ * 主函数：生成 README.md 和 mkdocs.yml
+ * 1. 扫描所有 Markdown 文件
+ * 2. 按分类组织内容
+ * 3. 生成难度星级索引
+ * 4. 写入最终文件
+ */
 async function main() {
     try {
         let README_BEFORE = '',
@@ -288,6 +310,11 @@ async function main() {
     }
 }
 
+/**
+ * 递归获取目录下所有 Markdown 文件
+ * @param {string} dir - 扫描的目录路径
+ * @returns {Promise<Array<{path: string, file: string}>>} 文件信息数组
+ */
 async function getAllMarkdown(dir) {
     const paths = [];
     const files = await readdir(dir);
