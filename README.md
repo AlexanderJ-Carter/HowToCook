@@ -1,46 +1,45 @@
 # 程序员做饭指南
 
-[![build](https://github.com/Anduin2017/HowToCook/actions/workflows/build.yml/badge.svg)](https://github.com/Anduin2017/HowToCook/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/Anduin2017/HowToCook)](./LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/Anduin2017/HowToCook)](https://github.com/Anduin2017/HowToCook/graphs/contributors)
-[![npm](https://img.shields.io/npm/v/how-to-cook)](https://www.npmjs.com/package/how-to-cook)
 [![Man hours](https://manhours.aiursoft.com/r/github.com/Anduin2017/HowToCook.svg)](https://manhours.aiursoft.com/r/github.com/Anduin2017/HowToCook.html)
-[![Docker](https://img.shields.io/badge/docker-latest-blue?logo=docker)](https://github.com/Anduin2017/HowToCook/pkgs/container/how-to-cook)
-[![Join the AnduinOS Community on Revolt](https://img.shields.io/badge/Revolt-Join-fd6671?style=flat-square)](https://rvlt.gg/ndApqZEs)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fhowtocook.aiursoft.com)](https://howtocook.aiursoft.com)
+[![Docker](https://img.shields.io/docker/pulls/aiursoft/howtocookviewer.svg)](https://hub.docker.com/r/aiursoft/howtocookviewer)
 
-> 本仓库为 [Anduin2017/HowToCook](https://github.com/Anduin2017/HowToCook) 的 fork，在保留原内容基础上对 starsystem、构建脚本与文档做了优化。详见 [FORK_INFO.md](./FORK_INFO.md)。
+最近宅在家做饭，作为程序员，我偶尔在网上找找菜谱和做法。但是这些菜谱往往写法千奇百怪，经常中间莫名出来一些材料。对于习惯了形式语言的程序员来说极其不友好。
 
-程序员在家做饭时，网上菜谱写法不一，经常中途冒出没写清楚的配料。本项目用更清晰、结构化的方式整理常见菜的做法，方便习惯「形式化」描述的程序员使用，并由社区共同维护。
+所以，我计划自己搜寻菜谱并结合实际做菜的经验，准备用更清晰精准的描述来整理常见菜的做法，以方便程序员在家做饭。
 
-## 本地部署（Docker）
+同样，我希望它是一个由社区驱动和维护的开源项目，使更多人能够一起做一个有趣的仓库。所以非常欢迎大家贡献它~
 
-使用 Docker 运行菜谱 Web 服务（任选其一）：
+## 浏览菜谱
 
-**上游镜像：**
+请直接访问 HowToCook 网站浏览菜谱可视化：
+
+[https://howtocook.aiursoft.com/](https://howtocook.aiursoft.com/)
+
+## 本地部署
+
+如果需要在本地部署菜谱 Web 服务，可以在安装 Docker 后运行下面命令：
 
 ```bash
-docker pull ghcr.io/anduin2017/how-to-cook:latest
-docker run -d -p 5000:80 ghcr.io/anduin2017/how-to-cook:latest
+docker pull aiursoft/howtocookviewer
+docker run -d -p 5000:5000 aiursoft/howtocookviewer
 ```
 
-**本 fork 镜像：**
-
-```bash
-docker pull ghcr.io/alexanderj-carter/how-to-cook:latest
-docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
-```
-
-访问 http://localhost:5000 。PDF 版本可访问 [cook.aiursoft.com/document.pdf](https://cook.aiursoft.com/document.pdf) 。
+默认用户名密码: `admin`,`Admin@123456!`。启动后 30 分钟内会自动索引。
 
 ## 如何贡献
 
-发现问题可直接修改并提交 Pull Request。新菜谱请基于模板编写，详见 [CONTRIBUTING.md](./CONTRIBUTING.md) 与 [示例菜](https://github.com/Anduin2017/HowToCook/blob/master/dishes/template/%E7%A4%BA%E4%BE%8B%E8%8F%9C/%E7%A4%BA%E4%BE%8B%E8%8F%9C.md?plain=1)。
+针对发现的问题，直接修改并提交 Pull request 即可。
+
+在写新菜谱时，请复制并修改已有的菜谱模板: [示例菜](https://github.com/Anduin2017/HowToCook/blob/master/dishes/template/%E7%A4%BA%E4%BE%8B%E8%8F%9C/%E7%A4%BA%E4%BE%8B%E8%8F%9C.md?plain=1)。
 
 ## 搭建环境
 
 - [厨房准备](tips/厨房准备.md)
+- [如何洗碗](tips/如何洗碗.md)
 - [如何选择现在吃什么](tips/如何选择现在吃什么.md)
-- [食材相克与禁忌](tips/食材相克与禁忌.md)
 - [高压力锅](tips/learn/高压力锅.md)
 - [空气炸锅](tips/learn/空气炸锅.md)
 - [去腥](tips/learn/去腥.md)
@@ -55,14 +54,6 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 
 ## 菜谱
 
-### 按难度索引
-
-- [1 星难度](starsystem/1Star.md)
-- [2 星难度](starsystem/2Star.md)
-- [3 星难度](starsystem/3Star.md)
-- [4 星难度](starsystem/4Star.md)
-- [5 星难度](starsystem/5Star.md)
-
 ### 素菜
 
 - [拔丝土豆](dishes/vegetable_dish/拔丝土豆/拔丝土豆.md)
@@ -72,9 +63,10 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [炒滑蛋](dishes/vegetable_dish/炒滑蛋/炒滑蛋.md)
 - [炒茄子](dishes/vegetable_dish/炒茄子.md)
 - [炒青菜](dishes/vegetable_dish/炒青菜.md)
+- [炒土豆和胡萝卜蒸菜](dishes/vegetable_dish/炒土豆和胡萝卜蒸菜.md)
 - [葱煎豆腐](dishes/vegetable_dish/葱煎豆腐.md)
 - [脆皮豆腐](dishes/vegetable_dish/脆皮豆腐.md)
-- [地三鲜](dishes/vegetable_dish/地三鲜.md)
+- [地三鲜](dishes/vegetable_dish/地三鲜/地三鲜.md)
 - [干锅花菜](dishes/vegetable_dish/干锅花菜/干锅花菜.md)
 - [蚝油三鲜菇](dishes/vegetable_dish/蚝油三鲜菇/蚝油三鲜菇.md)
 - [蚝油生菜](dishes/vegetable_dish/蚝油生菜.md)
@@ -92,6 +84,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [椒盐玉米](dishes/vegetable_dish/椒盐玉米/椒盐玉米.md)
 - [金钱蛋](dishes/vegetable_dish/金钱蛋.md)
 - [金针菇日本豆腐煲](dishes/vegetable_dish/金针菇日本豆腐煲.md)
+- [韭菜炒蛋](dishes/vegetable_dish/韭菜炒蛋/韭菜炒蛋.md)
 - [烤茄子](dishes/vegetable_dish/烤茄子/烤茄子.md)
 - [榄菜肉末四季豆](dishes/vegetable_dish/榄菜肉末四季豆/榄菜肉末四季豆.md)
 - [雷椒皮蛋](dishes/vegetable_dish/雷椒皮蛋.md)
@@ -103,6 +96,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [凉拌油麦菜](dishes/vegetable_dish/凉拌油麦菜.md)
 - [皮蛋豆腐](dishes/vegetable_dish/皮蛋豆腐.md)
 - [蒲烧茄子](dishes/vegetable_dish/蒲烧茄子.md)
+- [乾隆白菜](dishes/vegetable_dish/乾隆白菜/乾隆白菜.md)
 - [芹菜拌茶树菇](dishes/vegetable_dish/芹菜拌茶树菇/芹菜拌茶树菇.md)
 - [清炒花菜](dishes/vegetable_dish/清炒花菜.md)
 - [清蒸南瓜](dishes/vegetable_dish/清蒸南瓜.md)
@@ -113,6 +107,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [松仁玉米](dishes/vegetable_dish/松仁玉米.md)
 - [素炒豆角](dishes/vegetable_dish/素炒豆角.md)
 - [酸辣土豆丝](dishes/vegetable_dish/酸辣土豆丝.md)
+- [蒜蓉炒芹菜](dishes/vegetable_dish/蒜蓉炒芹菜/蒜蓉炒芹菜.md)
 - [蒜蓉空心菜](dishes/vegetable_dish/蒜蓉空心菜/蒜蓉空心菜.md)
 - [蒜蓉西兰花](dishes/vegetable_dish/蒜蓉西兰花.md)
 - [糖拌西红柿](dishes/vegetable_dish/糖拌西红柿/糖拌西红柿.md)
@@ -128,13 +123,16 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 
 ### 荤菜
 
-- [澳门湿版免治牛肉饭](dishes/meat_dish/澳门湿版免治牛肉饭.md)
+- [奥尔良风味烤鸡腿](dishes/meat_dish/奥尔良风味烤鸡腿/奥尔良风味烤鸡腿.md)
+- [澳门湿版免治牛肉饭](dishes/meat_dish/澳门湿版免治牛肉饭/澳门湿版免治牛肉饭.md)
 - [巴基斯坦牛肉咖喱](dishes/meat_dish/巴基斯坦牛肉咖喱/巴基斯坦牛肉咖喱.md)
 - [白菜猪肉炖粉条](dishes/meat_dish/白菜猪肉炖粉条.md)
 - [豉汁排骨](dishes/meat_dish/豉汁排骨.md)
 - [豉汁蒸白鱔](dishes/meat_dish/豉汁蒸白鱔/豉汁蒸白鱔.md)
+- [葱烧鸡腿](dishes/meat_dish/葱烧鸡腿.md)
 - [带把肘子](dishes/meat_dish/带把肘子.md)
 - [冬瓜酿肉](dishes/meat_dish/冬瓜酿肉/冬瓜酿肉.md)
+- [冬瓜桑拿鸡](dishes/meat_dish/冬瓜桑拿鸡.md)
 - [豆豉鲮鱼油麦菜](dishes/meat_dish/豆豉鲮鱼油麦菜/豆豉鲮鱼油麦菜.md)
 - [番茄红酱](dishes/meat_dish/番茄红酱.md)
 - [粉蒸肉](dishes/meat_dish/粉蒸肉.md)
@@ -144,6 +142,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [咕噜肉](dishes/meat_dish/咕噜肉.md)
 - [广式萝卜牛腩](dishes/meat_dish/广式萝卜牛腩/广式萝卜牛腩.md)
 - [贵州辣子鸡](dishes/meat_dish/贵州辣子鸡/贵州辣子鸡.md)
+- [桂林十八酿](dishes/meat_dish/桂林十八酿/桂林十八酿.md)
 - [荷兰豆炒腊肠](dishes/meat_dish/荷兰豆炒腊肠/荷兰豆炒腊肠.md)
 - [黑椒牛柳](dishes/meat_dish/黑椒牛柳/黑椒牛柳.md)
 - [红烧鸡翅](dishes/meat_dish/红烧鸡翅.md)
@@ -170,6 +169,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [咖喱肥牛](dishes/meat_dish/咖喱肥牛/咖喱肥牛.md)
 - [烤鸡翅](dishes/meat_dish/烤鸡翅.md)
 - [可乐鸡翅](dishes/meat_dish/可乐鸡翅.md)
+- [空气炸锅脆皮现腌炸鸡](dishes/meat_dish/空气炸锅脆皮现腌炸鸡/空气炸锅脆皮现腌炸鸡.md)
 - [口水鸡](dishes/meat_dish/口水鸡/口水鸡.md)
 - [辣椒炒肉](dishes/meat_dish/辣椒炒肉.md)
 - [老妈蹄花](dishes/meat_dish/老妈蹄花/老妈蹄花.md)
@@ -188,6 +188,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [农家一碗香](dishes/meat_dish/农家一碗香/农家一碗香.md)
 - [啤酒鸭](dishes/meat_dish/啤酒鸭/啤酒鸭.md)
 - [黔式腊肠娃娃菜](dishes/meat_dish/黔式腊肠娃娃菜/黔式腊肠娃娃菜.md)
+- [青椒酿](dishes/meat_dish/青椒酿/青椒酿.md)
 - [青椒土豆炒肉](dishes/meat_dish/青椒土豆炒肉/青椒土豆炒肉.md)
 - [清蒸鳜鱼](dishes/meat_dish/清蒸鳜鱼/清蒸鳜鱼.md)
 - [肉饼炖蛋](dishes/meat_dish/肉饼炖蛋.md)
@@ -201,6 +202,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [台式卤肉饭](dishes/meat_dish/台式卤肉饭/台式卤肉饭.md)
 - [糖醋里脊](dishes/meat_dish/糖醋里脊.md)
 - [糖醋排骨](dishes/meat_dish/糖醋排骨/糖醋排骨.md)
+- [田螺酿](dishes/meat_dish/田螺酿/田螺酿.md)
 - [甜辣烤全翅](dishes/meat_dish/甜辣烤全翅.md)
 - [土豆炖排骨](dishes/meat_dish/土豆炖排骨/土豆炖排骨.md)
 - [无骨鸡爪](dishes/meat_dish/无骨鸡爪/无骨鸡爪.md)
@@ -230,6 +232,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [猪肉烩酸菜](dishes/meat_dish/猪肉烩酸菜.md)
 - [柱候牛腩](dishes/meat_dish/柱候牛腩/柱候牛腩.md)
 - [孜然牛肉](dishes/meat_dish/孜然牛肉.md)
+- [淄博烧烤](dishes/meat_dish/淄博烧烤/淄博烧烤.md)
 - [醉排骨](dishes/meat_dish/醉排骨/醉排骨.md)
 
 ### 水产
@@ -260,6 +263,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [香煎翘嘴鱼](dishes/aquatic/香煎翘嘴鱼/香煎翘嘴鱼.md)
 - [响油鳝丝](dishes/aquatic/响油鳝丝.md)
 - [小龙虾](dishes/aquatic/小龙虾/小龙虾.md)
+- [阳朔啤酒鱼](dishes/aquatic/阳朔啤酒鱼/阳朔啤酒鱼.md)
 - [油焖大虾](dishes/aquatic/油焖大虾/油焖大虾.md)
 
 ### 早餐
@@ -292,7 +296,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 
 ### 主食
 
-- [炒方便面](dishes/staple/炒方便面.md)
+- [炒方便面](dishes/staple/炒方便面/炒方便面.md)
 - [炒河粉](dishes/staple/炒河粉.md)
 - [炒凉粉](dishes/staple/炒凉粉/炒凉粉.md)
 - [炒馍](dishes/staple/炒馍.md)
@@ -335,6 +339,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [手工水饺](dishes/staple/手工水饺.md)
 - [酸辣蕨根粉](dishes/staple/酸辣蕨根粉.md)
 - [汤面](dishes/staple/汤面.md)
+- [滕州菜煎饼](dishes/staple/滕州菜煎饼.md)
 - [微波炉腊肠煲仔饭](dishes/staple/微波炉腊肠煲仔饭/微波炉腊肠煲仔饭.md)
 - [西红柿鸡蛋挂面](dishes/staple/西红柿鸡蛋挂面/西红柿鸡蛋挂面.md)
 - [鲜肉烧卖](dishes/staple/鲜肉烧卖.md)
@@ -379,7 +384,9 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [米粥](dishes/soup/米粥.md)
 - [奶油蘑菇汤](dishes/soup/奶油蘑菇汤.md)
 - [排骨苦瓜汤](dishes/soup/排骨苦瓜汤/排骨苦瓜汤.md)
+- [排骨山药玉米汤](dishes/soup/排骨山药玉米汤/排骨山药玉米汤.md)
 - [皮蛋瘦肉粥](dishes/soup/皮蛋瘦肉粥.md)
+- [山药南瓜炖鸡汤](dishes/soup/山药南瓜炖鸡汤.md)
 - [生汆丸子汤](dishes/soup/生汆丸子汤.md)
 - [西红柿鸡蛋汤](dishes/soup/西红柿鸡蛋汤.md)
 - [小米粥](dishes/soup/小米粥.md)
@@ -464,3 +471,7 @@ docker run -d -p 5000:80 ghcr.io/alexanderj-carter/how-to-cook:latest
 - [HowToCook-mcp 让 AI 助手变身私人大厨，为你的一日三餐出谋划策](https://github.com/worryzyy/HowToCook-mcp)
 - [HowToCook-py-mcp 让 AI 助手变身私人大厨，为你的一日三餐出谋划策 (Python)](https://github.com/DusKing1/howtocook-py-mcp)
 - [whatToEat 今天吃什么？的决策工具，帮助你快速选择合适的菜谱。](https://github.com/ryanuo/whatToEat)
+- [厨房计划：开源中文菜谱 API - 由社区贡献，人人可用](https://proj.kitchen)
+- [孕养一日：离线孕期膳食与生活记录APP](https://github.com/lichong-a/pregnancy-nutrition-tracking)
+- [是啊吃什么(YeahWhat2Eat)](https://github.com/chiadan/YearWhat2Eat)
+- [Vibe Cook：一款基于 HowToCook，把「看着馋但迟迟不动手」变成「跟着一步步就做出来了」的沉浸式烹饪 App](https://github.com/zkeq/vibe-cook)　[在线访问](https://cook.corerevive.cn)
